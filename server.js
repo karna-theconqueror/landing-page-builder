@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
   res.setHeader('X-Frame-Options', 'DENY');
   next();
 });
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function readJSON(file) {
   try {
@@ -313,8 +313,12 @@ function buildSection(section, primary, secondary, bgColor, textColor) {
   return '';
 }
 
-app.listen(PORT, function() {
-  console.log('\n  PageCraft Landing Page Builder v1.0');
-  console.log('  Server: http://localhost:' + PORT);
-  console.log('  Builder: http://localhost:' + PORT + '\n');
-});
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, function() {
+    console.log('\n  PageCraft Landing Page Builder v1.0');
+    console.log('  Server: http://localhost:' + PORT);
+    console.log('  Builder: http://localhost:' + PORT + '\n');
+  });
+}
