@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1280px;height:769px;font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#0f0f23 0%,#1a1a3e 50%,#2d1b69 100%);overflow:hidden;position:relative}
+.glow{position:absolute;width:400px;height:400px;border-radius:50%;filter:blur(120px);opacity:0.25}
+.g1{background:#6366f1;top:-100px;left:-50px}
+.g2{background:#ec4899;bottom:-100px;right:100px}
+.container{position:relative;z-index:1;display:flex;height:100%;padding:60px}
+.left{flex:1;display:flex;flex-direction:column;justify-content:center;padding-right:40px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:6px 16px;font-size:13px;color:#a5b4fc;width:fit-content;margin-bottom:24px}
+.badge-dot{width:6px;height:6px;background:#22c55e;border-radius:50%}
+h1{font-size:48px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px}
+h1 span{background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{font-size:18px;color:#94a3b8;line-height:1.5;margin-bottom:32px;max-width:480px}
+.stats{display:flex;gap:32px}
+.stat-num{font-size:28px;font-weight:800;color:#fff}
+.stat-label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
+.right{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.mock{width:520px;height:380px;background:#1e1e2e;border-radius:16px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 80px rgba(0,0,0,0.5);overflow:hidden;transform:perspective(1000px) rotateY(-5deg) rotateX(2deg)}
+.mock-header{height:36px;background:#16161e;display:flex;align-items:center;padding:0 14px;gap:6px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.dot{width:10px;height:10px;border-radius:50%}
+.dr{background:#ef4444}.dy{background:#eab308}.dg{background:#22c55e}
+.mock-body{padding:0}
+.hero-preview{background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:30px;text-align:center;color:#fff}
+.hero-preview h2{font-size:18px;font-weight:700;margin-bottom:6px}
+.hero-preview p{font-size:10px;opacity:0.8;margin-bottom:12px}
+.hero-preview .btn{background:#fff;color:#6366f1;padding:6px 16px;border-radius:6px;font-size:10px;font-weight:600;display:inline-block}
+.features-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px}
+.feat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px;text-align:center}
+.feat-card .icon{font-size:16px;margin-bottom:4px}
+.feat-card h4{font-size:8px;color:#fff;margin-bottom:2px}
+.feat-card p{font-size:7px;color:#64748b}
+.pricing-preview{display:flex;gap:6px;padding:0 16px 16px}
+.price-card{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px;text-align:center}
+.price-card.featured{border-color:#6366f1;background:rgba(99,102,241,0.1)}
+.price-card h5{font-size:8px;color:#fff;margin-bottom:2px}
+.price-card .price{font-size:14px;font-weight:800;color:#6366f1}
+.price-card ul{list-style:none;margin-top:4px}
+.price-card li{font-size:6px;color:#94a3b8;padding:1px 0}
+.widget{position:absolute;right:20px;bottom:40px;width:220px;background:#1e1e2e;border-radius:12px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 16px 48px rgba(0,0,0,0.4);overflow:hidden;transform:perspective(800px) rotateY(5deg)}
+.widget-head{background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:10px 12px;display:flex;align-items:center;gap:8px}
+.widget-head .av{width:24px;height:24px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.widget-head .name{color:#fff;font-size:10px;font-weight:600}
+.widget-head .status{color:rgba(255,255,255,0.7);font-size:8px}
+.widget-msgs{padding:8px;display:flex;flex-direction:column;gap:4px}
+.msg{padding:5px 8px;border-radius:8px;font-size:8px;max-width:80%}
+.msg-b{background:rgba(99,102,241,0.15);color:#c7d2fe;border-bottom-left-radius:2px}
+.msg-u{background:#6366f1;color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div class="container">
+  <div class="left">
+    <div class="badge"><div class="badge-dot"></div> Visual Landing Page Builder</div>
+    <h1>Build Your<br><span>Landing Page</span><br>In Minutes</h1>
+    <p class="subtitle">Drag-and-drop visual builder. Choose sections, customize colors, export clean HTML. No coding required.</p>
+    <div class="stats">
+      <div><div class="stat-num">9</div><div class="stat-label">Sections</div></div>
+      <div><div class="stat-num">0</div><div class="stat-label">Coding</div></div>
+      <div><div class="stat-num">1</div><div class="stat-label">Click Export</div></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="mock">
+      <div class="mock-header"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
+      <div class="mock-body">
+        <div class="hero-preview"><h2>Build Something Amazing</h2><p>Create beautiful landing pages in minutes</p><div class="btn">Get Started</div></div>
+        <div class="features-preview">
+          <div class="feat-card"><div class="icon">⚡</div><h4>Fast</h4><p>Lightning speed</p></div>
+          <div class="feat-card"><div class="icon">🔒</div><h4>Secure</h4><p>Enterprise grade</p></div>
+          <div class="feat-card"><div class="icon">📱</div><h4>Responsive</h4><p>Works everywhere</p></div>
+        </div>
+        <div class="pricing-preview">
+          <div class="price-card"><h5>Basic</h5><div class="price">$29</div><ul><li>Feature 1</li><li>Feature 2</li></ul></div>
+          <div class="price-card featured"><h5>Pro</h5><div class="price">$59</div><ul><li>All Basic</li><li>Feature 3</li></ul></div>
+          <div class="price-card"><h5>Enterprise</h5><div class="price">$99</div><ul><li>All Pro</li><li>Feature 4</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-head"><div class="av">🤖</div><div><div class="name">PageCraft</div><div class="status">● Online</div></div></div>
+      <div class="widget-msgs"><div class="msg msg-b">Pick your sections!</div><div class="msg msg-u">I want hero + pricing</div><div class="msg msg-b">Done! Here's your page 🚀</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

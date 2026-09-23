@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PageCraft - Landing Page Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--sidebar-bg:#1a1a2e;--sidebar-text:#e0e0e0;--sidebar-hover:#16213e;
+--accent:#4f46e5;--accent-hover:#4338ca;--danger:#ef4444;--success:#22c55e;
+--canvas-bg:#f1f5f9;--card-bg:#ffffff;--border:#e2e8f0;
+--text:#1e293b;--text-secondary:#64748b;
+}
+html,body{height:100%;font-family:'Inter',sans-serif;overflow:hidden}
+.app{display:flex;flex-direction:column;height:100vh}
+
+/* ===== TOP BAR ===== */
+.top-bar{display:flex;align-items:center;height:56px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);border-bottom:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,.06);padding:0 20px;gap:14px;flex-shrink:0;z-index:100}
+.logo{font-weight:700;font-size:21px;background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.logo i{font-size:22px;background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.live-indicator{display:flex;align-items:center;gap:6px;margin-left:4px;background:rgba(34,197,94,.1);padding:3px 10px 3px 8px;border-radius:20px;font-size:10px;font-weight:700;color:var(--success);letter-spacing:.5px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+.project-name{border:1px solid transparent;border-radius:10px;padding:6px 12px;font-size:13px;font-weight:500;background:transparent;transition:all .25s ease;width:180px}
+.project-name:hover{border-color:var(--border);background:#fff}
+.project-name:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.top-actions{display:flex;gap:8px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s ease;font-family:inherit}
+.btn i{font-size:11px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6366f1);color:#fff;box-shadow:0 2px 8px rgba(79,70,229,.3)}
+.btn-primary:hover{background:linear-gradient(135deg,var(--accent-hover),#4f46e5);transform:translateY(-1px);box-shadow:0 4px 16px rgba(79,70,229,.4)}
+.btn-success{background:linear-gradient(135deg,var(--success),#16a34a);color:#fff;box-shadow:0 2px 8px rgba(34,197,94,.3)}
+.btn-success:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.4)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{background:#f8fafc;border-color:#cbd5e1;transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.btn-danger{background:var(--danger);color:#fff;box-shadow:0 2px 8px rgba(239,68,68,.3)}
+.btn-danger:hover{background:#dc2626;transform:translateY(-1px);box-shadow:0 4px 16px rgba(239,68,68,.4)}
+.btn-sm{padding:4px 8px;font-size:11px}
+
+/* ===== MAIN LAYOUT ===== */
+.main{display:flex;flex:1;overflow:hidden}
+
+/* ===== LEFT SIDEBAR ===== */
+.left-sidebar{width:228px;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f172a 100%);color:var(--sidebar-text);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;box-shadow:2px 0 16px rgba(0,0,0,.15)}
+.sidebar-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:16px 18px 10px;color:#94a3b8;display:flex;align-items:center;gap:8px}
+.sidebar-title i{font-size:11px;animation:rotatePlus 0.3s ease}
+@keyframes rotatePlus{from{transform:rotate(0deg)}to{transform:rotate(90deg)}}
+.sidebar-title::before{content:'';width:3px;height:12px;background:linear-gradient(180deg,var(--accent),#7c3aed);border-radius:2px;flex-shrink:0}
+.section-template{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:all .25s ease;border-left:3px solid transparent;margin:2px 8px;border-radius:0 10px 10px 0}
+.section-template:hover{background:rgba(255,255,255,.06);border-left-color:var(--accent);backdrop-filter:blur(10px);box-shadow:0 0 20px rgba(79,70,229,.15) inset}
+.section-template i{width:22px;text-align:center;font-size:14px;color:var(--accent);transition:all .25s ease}
+.section-template:hover i{color:#a78bfa;transform:scale(1.15)}
+.section-template span{font-size:13px;font-weight:500;transition:color .25s ease}
+.section-template:hover span{color:#fff}
+
+/* ===== CANVAS ===== */
+.canvas-wrapper{flex:1;overflow-y:auto;background:var(--canvas-bg);background-image:radial-gradient(circle,#d1d5db 1px,transparent 1px);background-size:24px 24px;padding:28px;display:flex;justify-content:center}
+.canvas{width:100%;max-width:780px;display:flex;flex-direction:column;gap:14px;min-height:400px}
+.canvas-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;color:var(--text-secondary);text-align:center;border:2px dashed #cbd5e1;border-radius:16px;padding:40px;background:rgba(255,255,255,.5);animation:borderDash 12s linear infinite}
+@keyframes borderDash{0%,100%{border-color:#cbd5e1}50%{border-color:var(--accent)}}
+.canvas-empty i{font-size:48px;margin-bottom:16px;color:#cbd5e1;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.canvas-empty h3{font-size:16px;margin-bottom:6px;color:var(--text)}
+.canvas-empty p{font-size:13px}
+
+/* Section in canvas */
+.canvas-section{background:var(--card-bg);border:2px solid transparent;border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s ease;position:relative;box-shadow:0 2px 12px rgba(0,0,0,.05);animation:slideIn .4s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.canvas-section:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);transform:translateY(-1px)}
+.canvas-section.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.15),0 0 24px rgba(79,70,229,.12),0 6px 24px rgba(0,0,0,.08)}
+.section-controls{position:absolute;top:10px;right:10px;display:flex;gap:5px;opacity:0;transition:all .25s ease;z-index:10}
+.canvas-section:hover .section-controls{opacity:1}
+.section-controls button{width:28px;height:28px;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s ease;backdrop-filter:blur(8px)}
+.ctrl-move{background:rgba(255,255,255,.92);color:#475569;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.ctrl-move:hover{background:#e2e8f0;transform:scale(1.1)}
+.ctrl-delete{background:rgba(239,68,68,.92);color:#fff;box-shadow:0 1px 4px rgba(239,68,68,.2)}
+.ctrl-delete:hover{background:var(--danger);transform:scale(1.1)}
+.section-type-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;z-index:10;opacity:0;transition:all .25s ease}
+.canvas-section:hover .section-type-badge{opacity:1}
+.section-preview{pointer-events:none;overflow:hidden}
+
+/* ===== RIGHT SIDEBAR ===== */
+.right-sidebar{width:308px;background:#fff;border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;box-shadow:-2px 0 16px rgba(0,0,0,.04)}
+.right-tabs{display:flex;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#f8fafc 0%,#fff 100%)}
+.right-tab{flex:1;padding:12px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--text-secondary);transition:all .25s ease;position:relative}
+.right-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.right-tab.active::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);border-radius:2px}
+.right-tab:hover{color:var(--text);background:rgba(248,250,252,.8)}
+.right-content{flex:1;overflow-y:auto;padding:18px}
+.tab-pane{display:none;animation:fadeIn .3s ease}
+.tab-pane.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Form elements */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:10px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;color:var(--text);transition:all .25s ease;background:#fff}
+.form-group input:hover,.form-group textarea:hover,.form-group select:hover{border-color:#cbd5e1}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.1);background:#fff}
+.form-group textarea{resize:vertical;min-height:60px}
+.color-row{display:flex;align-items:center;gap:8px}
+.color-row input[type="color"]{width:38px;height:34px;padding:3px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;background:none;transition:all .25s ease}
+.color-row input[type="color"]:hover{border-color:var(--accent);box-shadow:0 0 8px rgba(79,70,229,.2);transform:scale(1.05)}
+.color-row input[type="text"]{flex:1}
+
+/* Nested items */
+.nested-item{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;transition:all .25s ease}
+.nested-item:hover{border-color:#cbd5e1;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.nested-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.nested-item-header span{font-size:12px;font-weight:600;color:var(--text)}
+.nested-item .form-group{margin-bottom:8px}
+.nested-item .form-group:last-child{margin-bottom:0}
+.add-item-btn{width:100%;padding:9px;border:2px dashed var(--border);border-radius:10px;background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:var(--accent);transition:all .25s ease;font-family:inherit}
+.add-item-btn:hover{border-color:var(--accent);background:rgba(79,70,229,.04);transform:translateY(-1px)}
+.feature-list-item{display:flex;gap:6px;margin-bottom:6px}
+.feature-list-item input{flex:1}
+.feature-list-item button{width:28px;height:28px;border:none;border-radius:6px;background:rgba(239,68,68,.1);color:var(--danger);cursor:pointer;font-size:11px;flex-shrink:0;transition:all .2s ease}
+.feature-list-item button:hover{background:var(--danger);color:#fff;transform:scale(1.1)}
+.remove-nested{background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;padding:2px;transition:all .2s ease}
+.remove-nested:hover{color:#b91c1c;transform:scale(1.2)}
+
+/* Theme presets */
+.theme-presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.preset-card{border:2px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;transition:all .25s ease;text-align:center}
+.preset-card:hover{border-color:#94a3b8;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.preset-card.active{border-color:var(--accent);background:rgba(79,70,229,.04);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.preset-card .color-dots{display:flex;gap:4px;justify-content:center;margin-bottom:6px}
+.preset-card .color-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(0,0,0,.1);transition:transform .2s ease}
+.preset-card:hover .color-dot{transform:scale(1.15)}
+.preset-card span{font-size:10px;font-weight:600;color:var(--text-secondary)}
+.no-selection{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;text-align:center;color:var(--text-secondary)}
+.no-selection i{font-size:36px;margin-bottom:12px;color:#cbd5e1}
+.no-selection h4{font-size:14px;margin-bottom:4px;color:var(--text)}
+.no-selection p{font-size:12px}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#cbd5e1,var(--accent));border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#94a3b8,var(--accent))}
+
+/* Dragging */
+.dragging{opacity:.4}
+.drag-over{border-top:3px solid var(--accent)!important}
+
+/* Preview overlay */
+.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.preview-overlay.active{display:flex}
+.preview-frame{width:90vw;height:90vh;background:#fff;border-radius:16px;overflow:hidden;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.preview-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:16px;z-index:10;display:flex;align-items:center;justify-content:center;transition:all .25s ease;backdrop-filter:blur(6px)}
+.preview-close:hover{background:rgba(0,0,0,.85);transform:rotate(90deg)}
+.preview-frame iframe{width:100%;height:100%;border:none}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:14px 22px;border-radius:12px;font-size:13px;font-weight:500;z-index:2000;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:linear-gradient(135deg,var(--success),#16a34a);box-shadow:0 8px 32px rgba(34,197,94,.3)}
+.toast.error{background:linear-gradient(135deg,var(--danger),#dc2626);box-shadow:0 8px 32px rgba(239,68,68,.3)}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- TOP BAR -->
+<div class="top-bar">
+<div class="logo"><i class="fas fa-layer-group"></i>PageCraft<div class="live-indicator"><span class="live-dot"></span>LIVE</div></div>
+<input class="project-name" id="projectName" value="My Landing Page" placeholder="Project name">
+<div class="top-actions">
+<button class="btn btn-outline" id="btnPreview"><i class="fas fa-eye"></i>Preview</button>
+<button class="btn btn-primary" id="btnSave"><i class="fas fa-save"></i>Save</button>
+<button class="btn btn-success" id="btnExport"><i class="fas fa-download"></i>Export</button>
+</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<!-- LEFT SIDEBAR -->
+<div class="left-sidebar">
+<div class="sidebar-title">Sections</div>
+<div class="section-template" data-type="hero"><i class="fas fa-rocket"></i><span>Hero</span></div>
+<div class="section-template" data-type="features"><i class="fas fa-th-large"></i><span>Features</span></div>
+<div class="section-template" data-type="pricing"><i class="fas fa-tags"></i><span>Pricing</span></div>
+<div class="section-template" data-type="testimonials"><i class="fas fa-quote-right"></i><span>Testimonials</span></div>
+<div class="section-template" data-type="faq"><i class="fas fa-question-circle"></i><span>FAQ</span></div>
+<div class="section-template" data-type="cta"><i class="fas fa-bullhorn"></i><span>CTA</span></div>
+<div class="section-template" data-type="contact"><i class="fas fa-envelope"></i><span>Contact</span></div>
+<div class="section-template" data-type="footer"><i class="fas fa-shoe-prints"></i><span>Footer</span></div>
+<div class="section-template" data-type="spacer"><i class="fas fa-arrows-alt-v"></i><span>Spacer</span></div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas-wrapper">
+<div class="canvas" id="canvas"></div>
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div class="right-sidebar">
+<div class="right-tabs">
+<div class="right-tab active" data-tab="section">Section</div>
+<div class="right-tab" data-tab="theme">Theme</div>
+</div>
+<div class="right-content">
+<!-- Section Tab -->
+<div class="tab-pane active" id="tabSection">
+<div class="no-selection" id="noSelection">
+<i class="fas fa-hand-pointer"></i>
+<h4>No section selected</h4>
+<p>Click a section on the canvas to edit it, or add one from the left panel.</p>
+</div>
+<div id="sectionEditor" style="display:none"></div>
+</div>
+<!-- Theme Tab -->
+<div class="tab-pane" id="tabTheme">
+<div class="sidebar-title" style="padding:0 0 10px">Presets</div>
+<div class="theme-presets" id="themePresets"></div>
+<div class="sidebar-title" style="padding:0 0 10px">Colors</div>
+<div class="form-group">
+<label>Primary Color</label>
+<div class="color-row"><input type="color" id="themePrimary" value="#4f46e5"><input type="text" id="themePrimaryHex" value="#4f46e5" data-target="themePrimary"></div>
+</div>
+<div class="form-group">
+<label>Secondary Color</label>
+<div class="color-row"><input type="color" id="themeSecondary" value="#7c3aed"><input type="text" id="themeSecondaryHex" value="#7c3aed" data-target="themeSecondary"></div>
+</div>
+<div class="form-group">
+<label>Background Color</label>
+<div class="color-row"><input type="color" id="themeBg" value="#ffffff"><input type="text" id="themeBgHex" value="#ffffff" data-target="themeBg"></div>
+</div>
+<div class="form-group">
+<label>Text Color</label>
+<div class="color-row"><input type="color" id="themeText" value="#1e293b"><input type="text" id="themeTextHex" value="#1e293b" data-target="themeText"></div>
+</div>
+<div class="sidebar-title" style="padding:10px 0">Typography</div>
+<div class="form-group">
+<label>Font Family</label>
+<select id="themeFont">
+<option value="Inter">Inter</option>
+<option value="Poppins">Poppins</option>
+<option value="Montserrat">Montserrat</option>
+<option value="Roboto">Roboto</option>
+<option value="Playfair Display">Playfair Display</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Preview Overlay -->
+<div class="preview-overlay" id="previewOverlay">
+<div class="preview-frame">
+<button class="preview-close" id="previewClose"><i class="fas fa-times"></i></button>
+<iframe id="previewFrame"></iframe>
+</div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:3001/api';
+let projectId = null;
+let sections = [];
+let selectedIndex = -1;
+let theme = { primary: '#4f46e5', secondary: '#7c3aed', bg: '#ffffff', text: '#1e293b', font: 'Inter' };
+
+const presets = [
+  { name: 'Indigo', primary: '#4f46e5', secondary: '#7c3aed', bg: '#ffffff', text: '#1e293b' },
+  { name: 'Ocean', primary: '#0891b2', secondary: '#06b6d4', bg: '#f0fdfa', text: '#134e4a' },
+  { name: 'Rose', primary: '#e11d48', secondary: '#f43f5e', bg: '#fff1f2', text: '#881337' },
+  { name: 'Emerald', primary: '#059669', secondary: '#10b981', bg: '#ecfdf5', text: '#064e3b' },
+  { name: 'Slate Dark', primary: '#6366f1', secondary: '#818cf8', bg: '#0f172a', text: '#e2e8f0' },
+  { name: 'Amber', primary: '#d97706', secondary: '#f59e0b', bg: '#fffbeb', text: '#78350f' }
+];
+
+// ===== SECTION TEMPLATES =====
+function createSectionData(type) {
+  const templates = {
+    hero: { type: 'hero', title: 'Build Something Amazing', subtitle: 'Create stunning landing pages in minutes with our intuitive builder.', ctaText: 'Get Started', ctaLink: '#' },
+    features: { type: 'features', title: 'Powerful Features', items: [
+      { icon: 'fa-bolt', title: 'Lightning Fast', desc: 'Optimized for speed and performance.' },
+      { icon: 'fa-shield-alt', title: 'Secure', desc: 'Enterprise-grade security built in.' },
+      { icon: 'fa-palette', title: 'Customizable', desc: 'Fully customizable to match your brand.' }
+    ]},
+    pricing: { type: 'pricing', title: 'Simple Pricing', plans: [
+      { name: 'Starter', price: '$9', features: ['5 Projects', '10GB Storage', 'Email Support'], featured: false },
+      { name: 'Pro', price: '$29', features: ['Unlimited Projects', '100GB Storage', 'Priority Support', 'Advanced Analytics'], featured: true }
+    ]},
+    testimonials: { type: 'testimonials', items: [
+      { name: 'Sarah Johnson', role: 'CEO, TechCorp', text: 'This product has completely transformed our workflow. Highly recommended!' },
+      { name: 'Mike Chen', role: 'Designer, StudioX', text: 'Incredible attention to detail. The best tool I have ever used.' }
+    ]},
+    faq: { type: 'faq', items: [
+      { q: 'How do I get started?', a: 'Simply sign up for an account and follow the onboarding guide.' },
+      { q: 'Can I cancel anytime?', a: 'Yes, you can cancel your subscription at any time.' }
+    ]},
+    cta: { type: 'cta', title: 'Ready to Get Started?', subtitle: 'Join thousands of satisfied customers today.', ctaText: 'Start Free Trial', ctaLink: '#' },
+    contact: { type: 'contact', title: 'Get In Touch' },
+    footer: { type: 'footer', text: '\u00a9 2026 Your Company. All rights reserved.' },
+    spacer: { type: 'spacer', height: 60 }
+  };
+  return JSON.parse(JSON.stringify(templates[type]));
+}
+
+// ===== CANVAS RENDERING =====
+function renderCanvas() {
+  const canvas = document.getElementById('canvas');
+  if (sections.length === 0) {
+    canvas.innerHTML = `<div class="canvas-empty"><i class="fas fa-mouse-pointer"></i><h3>Start Building</h3><p>Click a section type on the left to add it here.</p></div>`;
+    return;
+  }
+  canvas.innerHTML = sections.map((s, i) => `
+    <div class="canvas-section ${i === selectedIndex ? 'selected' : ''}" data-index="${i}" draggable="true">
+      <div class="section-type-badge">${s.type}</div>
+      <div class="section-controls">
+        <button class="ctrl-move" data-dir="up" data-idx="${i}" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+        <button class="ctrl-move" data-dir="down" data-idx="${i}" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+        <button class="ctrl-delete" data-idx="${i}" title="Delete"><i class="fas fa-trash"></i></button>
+      </div>
+      <div class="section-preview">${renderSectionPreview(s)}</div>
+    </div>`).join('');
+
+  canvas.querySelectorAll('.canvas-section').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.closest('.section-controls')) return;
+      selectSection(parseInt(el.dataset.index));
+    });
+    el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', el.dataset.index); el.classList.add('dragging'); });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag-over'); });
+    el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+    el.addEventListener('drop', e => {
+      e.preventDefault(); el.classList.remove('drag-over');
+      const from = parseInt(e.dataTransfer.getData('text/plain'));
+      const to = parseInt(el.dataset.index);
+      if (from !== to) { const [item] = sections.splice(from, 1); sections.splice(to, 0, item); selectedIndex = to; renderCanvas(); renderEditor(); }
+    });
+  });
+
+  canvas.querySelectorAll('.ctrl-move').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.idx);
+      const dir = btn.dataset.dir;
+      const newIdx = dir === 'up' ? idx - 1 : idx + 1;
+      if (newIdx >= 0 && newIdx < sections.length) {
+        [sections[idx], sections[newIdx]] = [sections[newIdx], sections[idx]];
+        selectedIndex = newIdx; renderCanvas(); renderEditor();
+      }
+    });
+  });
+
+  canvas.querySelectorAll('.ctrl-delete').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.idx);
+      sections.splice(idx, 1);
+      if (selectedIndex === idx) { selectedIndex = -1; renderEditor(); }
+      else if (selectedIndex > idx) selectedIndex--;
+      renderCanvas();
+    });
+  });
+}
+
+function renderSectionPreview(s) {
+  const { primary, secondary, bg, text, font } = theme;
+  const fontCSS = `'${font}', sans-serif`;
+  const darkText = theme.bg === '#0f172a' || theme.bg === '#1e293b' ? '#f1f5f9' : text;
+  const lightBg = theme.bg === '#0f172a' || theme.bg === '#1e293b' ? '#1e293b' : '#f8fafc';
+
+  const previewStyles = `font-family:${fontCSS};color:${darkText};`;
+
+  switch(s.type) {
+    case 'hero':
+      return `<div style="${previewStyles}background:linear-gradient(135deg,${primary},${secondary});padding:60px 40px;text-align:center;color:#fff">
+        <h1 style="font-size:32px;font-weight:700;margin-bottom:12px;letter-spacing:-0.5px">${esc(s.title)}</h1>
+        <p style="font-size:15px;opacity:.9;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto">${esc(s.subtitle)}</p>
+        <a style="display:inline-block;background:#fff;color:${primary};padding:12px 32px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">${esc(s.ctaText)}</a>
+      </div>`;
+    case 'features':
+      return `<div style="${previewStyles}padding:40px;text-align:center;background:${bg}">
+        <h2 style="font-size:24px;font-weight:700;margin-bottom:28px">${esc(s.title)}</h2>
+        <div style="display:flex;gap:20px;justify-content:center">${(s.items||[]).map(f => `
+          <div style="flex:1;max-width:200px;text-align:center">
+            <div style="width:48px;height:48px;border-radius:12px;background:${primary}15;color:${primary};display:inline-flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px"><i class="fas ${esc(f.icon||'fa-star')}"></i></div>
+            <h3 style="font-size:15px;font-weight:600;margin-bottom:6px">${esc(f.title)}</h3>
+            <p style="font-size:13px;color:${text}80;line-height:1.5">${esc(f.desc)}</p>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    case 'pricing':
+      return `<div style="${previewStyles}padding:40px;text-align:center;background:${lightBg}">
+        <h2 style="font-size:24px;font-weight:700;margin-bottom:28px">${esc(s.title)}</h2>
+        <div style="display:flex;gap:20px;justify-content:center;align-items:flex-start">${(s.plans||[]).map(p => `
+          <div style="flex:1;max-width:240px;border:2px solid ${p.featured ? primary : '#e2e8f0'};border-radius:12px;padding:24px;background:${p.featured ? primary+'08' : '#fff'};${p.featured ? 'transform:scale(1.05);' : ''}">
+            ${p.featured ? `<div style="background:${primary};color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px">POPULAR</div>` : ''}
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:8px">${esc(p.name)}</h3>
+            <div style="font-size:32px;font-weight:700;color:${primary};margin-bottom:16px">${esc(p.price)}<span style="font-size:14px;font-weight:400;color:${text}80">/mo</span></div>
+            ${(p.features||[]).map(f => `<div style="font-size:12px;padding:6px 0;color:${text}90"><i class="fas fa-check" style="color:${primary};margin-right:6px;font-size:10px"></i>${esc(f)}</div>`).join('')}
+          </div>`).join('')}
+        </div>
+      </div>`;
+    case 'testimonials':
+      return `<div style="${previewStyles}padding:40px;background:${bg}">
+        <div style="display:flex;gap:16px;justify-content:center">${(s.items||[]).map(t => `
+          <div style="flex:1;max-width:280px;background:${lightBg};border-radius:12px;padding:20px;border:1px solid #e2e8f0">
+            <div style="color:${primary};font-size:20px;margin-bottom:8px"><i class="fas fa-quote-left"></i></div>
+            <p style="font-size:13px;line-height:1.6;margin-bottom:16px;color:${text}cc">${esc(t.text)}</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;border-radius:50%;background:${primary}20;color:${primary};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">${esc(t.name[0])}</div>
+              <div><div style="font-size:13px;font-weight:600">${esc(t.name)}</div><div style="font-size:11px;color:${text}80">${esc(t.role)}</div></div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    case 'faq':
+      return `<div style="${previewStyles}padding:40px;background:${lightBg}">
+        <h2 style="font-size:24px;font-weight:700;text-align:center;margin-bottom:24px">Frequently Asked Questions</h2>
+        <div style="max-width:600px;margin:0 auto">${(s.items||[]).map(f => `
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:10px">
+            <div style="font-size:14px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px"><i class="fas fa-chevron-right" style="color:${primary};font-size:10px"></i>${esc(f.q)}</div>
+            <div style="font-size:13px;color:${text}90;padding-left:18px;line-height:1.5">${esc(f.a)}</div>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    case 'cta':
+      return `<div style="${previewStyles}background:linear-gradient(135deg,${primary},${secondary});padding:50px 40px;text-align:center;color:#fff">
+        <h2 style="font-size:28px;font-weight:700;margin-bottom:10px">${esc(s.title)}</h2>
+        <p style="font-size:15px;opacity:.9;margin-bottom:24px">${esc(s.subtitle)}</p>
+        <a style="display:inline-block;background:#fff;color:${primary};padding:12px 32px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">${esc(s.ctaText)}</a>
+      </div>`;
+    case 'contact':
+      return `<div style="${previewStyles}padding:40px;background:${bg}">
+        <h2 style="font-size:24px;font-weight:700;text-align:center;margin-bottom:24px">${esc(s.title)}</h2>
+        <div style="max-width:400px;margin:0 auto">
+          <div style="display:flex;gap:10px;margin-bottom:10px"><input style="flex:1;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px" placeholder="Name" readonly><input style="flex:1;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px" placeholder="Email" readonly></div>
+          <textarea style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;height:80px;resize:none;font-family:inherit" placeholder="Message" readonly></textarea>
+          <div style="text-align:center;margin-top:12px"><button style="background:${primary};color:#fff;border:none;padding:10px 32px;border-radius:8px;font-weight:600;font-size:13px;cursor:default">Send Message</button></div>
+        </div>
+      </div>`;
+    case 'footer':
+      return `<div style="${previewStyles}padding:24px;background:#1e293b;color:#94a3b8;text-align:center;font-size:12px">${esc(s.text)}</div>`;
+    case 'spacer':
+      return `<div style="height:${s.height}px;background:repeating-linear-gradient(45deg,${primary}08,${primary}08 10px,transparent 10px,transparent 20px);display:flex;align-items:center;justify-content:center;color:${primary}60;font-size:12px;font-weight:600">${s.height}px</div>`;
+    default: return '';
+  }
+}
+
+function esc(str) { if (!str) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ===== EDITOR =====
+function selectSection(idx) {
+  selectedIndex = idx;
+  renderCanvas();
+  renderEditor();
+}
+
+function renderEditor() {
+  const editor = document.getElementById('sectionEditor');
+  const noSel = document.getElementById('noSelection');
+  if (selectedIndex < 0 || selectedIndex >= sections.length) {
+    editor.style.display = 'none'; noSel.style.display = 'flex'; return;
+  }
+  noSel.style.display = 'none'; editor.style.display = 'block';
+  const s = sections[selectedIndex];
+  let html = '';
+
+  switch(s.type) {
+    case 'hero':
+    case 'cta':
+      html += formField('Title', 'title', s.title);
+      html += formField('Subtitle', 'subtitle', s.subtitle);
+      html += formField('Button Text', 'ctaText', s.ctaText);
+      html += formField('Button Link', 'ctaLink', s.ctaLink);
+      break;
+    case 'features':
+      html += formField('Title', 'title', s.title);
+      html += '<div class="sidebar-title" style="padding:4px 0 8px">Items</div>';
+      (s.items || []).forEach((item, i) => {
+        html += `<div class="nested-item"><div class="nested-item-header"><span>Item ${i+1}</span><button class="remove-nested" data-idx="${i}"><i class="fas fa-times"></i></button></div>`;
+        html += formField('Icon (FA class)', 'icon', item.icon, i, 'items');
+        html += formField('Title', 'title', item.title, i, 'items');
+        html += formField('Description', 'desc', item.desc, i, 'items', 'textarea');
+        html += '</div>';
+      });
+      html += '<button class="add-item-btn" data-add="feature"><i class="fas fa-plus"></i> Add Feature</button>';
+      break;
+    case 'pricing':
+      html += formField('Title', 'title', s.title);
+      html += '<div class="sidebar-title" style="padding:4px 0 8px">Plans</div>';
+      (s.plans || []).forEach((plan, i) => {
+        html += `<div class="nested-item"><div class="nested-item-header"><span>${esc(plan.name) || 'Plan '+(i+1)} ${plan.featured ? '⭐':''}</span><button class="remove-nested" data-idx="${i}"><i class="fas fa-times"></i></button></div>`;
+        html += formField('Name', 'name', plan.name, i, 'plans');
+        html += formField('Price', 'price', plan.price, i, 'plans');
+        html += formField('Featured', 'featured', plan.featured, i, 'plans', 'checkbox');
+        html += `<div class="form-group"><label>Features</label>`;
+        (plan.features || []).forEach((f, fi) => {
+          html += `<div class="feature-list-item"><input type="text" value="${esc(f)}" data-path="plans.${i}.features.${fi}"><button data-removefeature="${i}.${fi}"><i class="fas fa-times"></i></button></div>`;
+        });
+        html += `<button class="add-item-btn" data-addfeature="${i}" style="margin-top:4px"><i class="fas fa-plus"></i> Add Feature</button></div></div>`;
+      });
+      html += '<button class="add-item-btn" data-add="plan"><i class="fas fa-plus"></i> Add Plan</button>';
+      break;
+    case 'testimonials':
+      html += '<div class="sidebar-title" style="padding:4px 0 8px">Testimonials</div>';
+      (s.items || []).forEach((item, i) => {
+        html += `<div class="nested-item"><div class="nested-item-header"><span>${esc(item.name) || 'Person '+(i+1)}</span><button class="remove-nested" data-idx="${i}"><i class="fas fa-times"></i></button></div>`;
+        html += formField('Name', 'name', item.name, i, 'items');
+        html += formField('Role', 'role', item.role, i, 'items');
+        html += formField('Text', 'text', item.text, i, 'items', 'textarea');
+        html += '</div>';
+      });
+      html += '<button class="add-item-btn" data-add="testimonial"><i class="fas fa-plus"></i> Add Testimonial</button>';
+      break;
+    case 'faq':
+      html += '<div class="sidebar-title" style="padding:4px 0 8px">Questions</div>';
+      (s.items || []).forEach((item, i) => {
+        html += `<div class="nested-item"><div class="nested-item-header"><span>Q${i+1}</span><button class="remove-nested" data-idx="${i}"><i class="fas fa-times"></i></button></div>`;
+        html += formField('Question', 'q', item.q, i, 'items');
+        html += formField('Answer', 'a', item.a, i, 'items', 'textarea');
+        html += '</div>';
+      });
+      html += '<button class="add-item-btn" data-add="faq"><i class="fas fa-plus"></i> Add Question</button>';
+      break;
+    case 'contact':
+      html += formField('Title', 'title', s.title);
+      break;
+    case 'footer':
+      html += formField('Footer Text', 'text', s.text, null, null, 'textarea');
+      break;
+    case 'spacer':
+      html += formField('Height (px)', 'height', s.height, null, null, 'number');
+      break;
+  }
+  editor.innerHTML = html;
+  bindEditorEvents();
+}
+
+function formField(label, key, value, itemIdx, path, type) {
+  if (type === 'checkbox') {
+    return `<div class="form-group"><label>${label}</label><input type="checkbox" ${value ? 'checked' : ''} data-key="${key}" data-itemidx="${itemIdx ?? ''}" data-path="${path || ''}" style="width:auto"></div>`;
+  }
+  if (type === 'number') {
+    return `<div class="form-group"><label>${label}</label><input type="number" value="${esc(value)}" data-key="${key}" data-itemidx="${itemIdx ?? ''}" data-path="${path || ''}"></div>`;
+  }
+  if (type === 'textarea') {
+    return `<div class="form-group"><label>${label}</label><textarea data-key="${key}" data-itemidx="${itemIdx ?? ''}" data-path="${path || ''}">${esc(value)}</textarea></div>`;
+  }
+  return `<div class="form-group"><label>${label}</label><input type="text" value="${esc(value)}" data-key="${key}" data-itemidx="${itemIdx ?? ''}" data-path="${path || ''}"></div>`;
+}
+
+function bindEditorEvents() {
+  document.querySelectorAll('#sectionEditor input, #sectionEditor textarea, #sectionEditor select').forEach(el => {
+    el.addEventListener('input', e => {
+      const key = el.dataset.key;
+      const path = el.dataset.path;
+      const idx = parseInt(el.dataset.itemidx);
+      const s = sections[selectedIndex];
+      if (path && !isNaN(idx)) {
+        if (path === 'items') {
+          if (el.type === 'checkbox') s.items[idx][key] = el.checked;
+          else s.items[idx][key] = el.type === 'number' ? parseFloat(el.value)||0 : el.value;
+        } else if (path === 'plans') {
+          if (key === 'featured') s.plans[idx][key] = el.checked;
+          else if (el.type === 'number') s.plans[idx][key] = el.value;
+          else s.plans[idx][key] = el.value;
+        }
+      } else {
+        if (key === 'featured') s[key] = el.checked;
+        else if (el.type === 'number') s[key] = parseFloat(el.value)||0;
+        else s[key] = el.value;
+      }
+      renderCanvas();
+    });
+  });
+
+  document.querySelectorAll('#sectionEditor .remove-nested').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx);
+      const s = sections[selectedIndex];
+      if (s.items) s.items.splice(idx, 1);
+      else if (s.plans) s.plans.splice(idx, 1);
+      renderCanvas(); renderEditor();
+    });
+  });
+
+  document.querySelectorAll('#sectionEditor .add-item-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const addType = btn.dataset.add;
+      const s = sections[selectedIndex];
+      if (addType === 'feature') { if (!s.items) s.items = []; s.items.push({ icon: 'fa-star', title: 'New Feature', desc: 'Description here' }); }
+      else if (addType === 'plan') { if (!s.plans) s.plans = []; s.plans.push({ name: 'New Plan', price: '$19', features: ['Feature 1'], featured: false }); }
+      else if (addType === 'testimonial') { if (!s.items) s.items = []; s.items.push({ name: 'New Person', role: 'Role', text: 'Amazing experience!' }); }
+      else if (addType === 'faq') { if (!s.items) s.items = []; s.items.push({ q: 'New question?', a: 'Answer here.' }); }
+      renderCanvas(); renderEditor();
+    });
+  });
+
+  document.querySelectorAll('#sectionEditor [data-addfeature]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const planIdx = parseInt(btn.dataset.addfeature);
+      sections[selectedIndex].plans[planIdx].features.push('New feature');
+      renderCanvas(); renderEditor();
+    });
+  });
+
+  document.querySelectorAll('#sectionEditor [data-removefeature]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const [planIdx, featIdx] = btn.dataset.removefeature.split('.').map(Number);
+      sections[selectedIndex].plans[planIdx].features.splice(featIdx, 1);
+      renderCanvas(); renderEditor();
+    });
+  });
+
+  document.querySelectorAll('#sectionEditor [data-path]').forEach(el => {
+    if (el.tagName === 'INPUT' && el.type !== 'checkbox') {
+      el.addEventListener('input', () => {
+        const parts = el.dataset.path.split('.');
+        const s = sections[selectedIndex];
+        if (parts[0] === 'plans' && parts[2] === 'features') {
+          const pi = parseInt(parts[1]), fi = parseInt(parts[3]);
+          s.plans[pi].features[fi] = el.value;
+          renderCanvas();
+        }
+      });
+    }
+  });
+}
+
+// ===== THEME =====
+function renderPresets() {
+  const container = document.getElementById('themePresets');
+  container.innerHTML = presets.map((p, i) => `
+    <div class="preset-card ${JSON.stringify({primary:p.primary,secondary:p.secondary,bg:p.bg,text:p.text}) === JSON.stringify({primary:theme.primary,secondary:theme.secondary,bg:theme.bg,text:theme.text}) ? 'active' : ''}" data-idx="${i}">
+      <div class="color-dots">
+        <div class="color-dot" style="background:${p.primary}"></div>
+        <div class="color-dot" style="background:${p.secondary}"></div>
+        <div class="color-dot" style="background:${p.bg}"></div>
+        <div class="color-dot" style="background:${p.text}"></div>
+      </div>
+      <span>${p.name}</span>
+    </div>`).join('');
+
+  container.querySelectorAll('.preset-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const p = presets[parseInt(card.dataset.idx)];
+      theme.primary = p.primary; theme.secondary = p.secondary; theme.bg = p.bg; theme.text = p.text;
+      syncThemeInputs(); renderPresets(); renderCanvas();
+    });
+  });
+}
+
+function syncThemeInputs() {
+  ['primary','secondary','bg','text'].forEach(key => {
+    document.getElementById('theme' + key.charAt(0).toUpperCase() + key.slice(1)).value = theme[key];
+    document.getElementById('theme' + key.charAt(0).toUpperCase() + key.slice(1) + 'Hex').value = theme[key];
+  });
+  document.getElementById('themeFont').value = theme.font;
+}
+
+['primary','secondary','bg','text'].forEach(key => {
+  const colorEl = document.getElementById('theme' + key.charAt(0).toUpperCase() + key.slice(1));
+  const hexEl = document.getElementById('theme' + key.charAt(0).toUpperCase() + key.slice(1) + 'Hex');
+  colorEl.addEventListener('input', () => { theme[key] = colorEl.value; hexEl.value = colorEl.value; renderCanvas(); renderPresets(); });
+  hexEl.addEventListener('input', () => { if (/^#[0-9a-f]{6}$/i.test(hexEl.value)) { theme[key] = hexEl.value; colorEl.value = hexEl.value; renderCanvas(); renderPresets(); } });
+});
+
+document.getElementById('themeFont').addEventListener('change', e => { theme.font = e.target.value; renderCanvas(); });
+
+// ===== ADD SECTION =====
+document.querySelectorAll('.section-template').forEach(el => {
+  el.addEventListener('click', () => {
+    const type = el.dataset.type;
+    sections.push(createSectionData(type));
+    selectedIndex = sections.length - 1;
+    renderCanvas(); renderEditor();
+    document.querySelector('.canvas-wrapper').scrollTop = document.querySelector('.canvas-wrapper').scrollHeight;
+  });
+});
+
+// ===== TABS =====
+document.querySelectorAll('.right-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.right-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab' + tab.dataset.tab.charAt(0).toUpperCase() + tab.dataset.tab.slice(1)).classList.add('active');
+  });
+});
+
+// ===== SAVE =====
+document.getElementById('btnSave').addEventListener('click', async () => {
+  const name = document.getElementById('projectName').value || 'Untitled';
+  const body = { name, sections, theme };
+  try {
+    if (projectId) {
+      const res = await fetch(`${API}/projects/${projectId}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      if (res.ok) showToast('Saved!', 'success');
+      else throw new Error();
+    } else {
+      const res = await fetch(`${API}/projects`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      const data = await res.json();
+      projectId = data.id || data._id;
+      showToast('Saved!', 'success');
+    }
+  } catch { showToast('Save failed', 'error'); }
+});
+
+// ===== PREVIEW =====
+document.getElementById('btnPreview').addEventListener('click', () => {
+  const html = buildPreviewHTML();
+  const overlay = document.getElementById('previewOverlay');
+  overlay.classList.add('active');
+  const frame = document.getElementById('previewFrame');
+  frame.srcdoc = html;
+});
+document.getElementById('previewClose').addEventListener('click', () => {
+  document.getElementById('previewOverlay').classList.remove('active');
+});
+document.getElementById('previewOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('previewOverlay')) document.getElementById('previewOverlay').classList.remove('active');
+});
+
+function buildPreviewHTML() {
+  const { primary, secondary, bg, text, font } = theme;
+  const sectionsHTML = sections.map(s => {
+    const previewStyles = `font-family:'${font}',sans-serif;color:${text};`;
+    switch(s.type) {
+      case 'hero': return `<section style="${previewStyles}background:linear-gradient(135deg,${primary},${secondary});padding:100px 40px;text-align:center;color:#fff">
+        <h1 style="font-size:48px;font-weight:700;margin-bottom:16px;letter-spacing:-1px;max-width:700px;margin-left:auto;margin-right:auto">${esc(s.title)}</h1>
+        <p style="font-size:18px;opacity:.9;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6">${esc(s.subtitle)}</p>
+        <a href="${esc(s.ctaLink)}" style="display:inline-block;background:#fff;color:${primary};padding:14px 36px;border-radius:8px;font-weight:600;font-size:16px;text-decoration:none;transition:transform .2s">${esc(s.ctaText)}</a>
+      </section>`;
+      case 'features': return `<section style="${previewStyles}padding:80px 40px;background:${bg};text-align:center">
+        <h2 style="font-size:36px;font-weight:700;margin-bottom:48px">${esc(s.title)}</h2>
+        <div style="display:flex;gap:32px;justify-content:center;max-width:1000px;margin:0 auto;flex-wrap:wrap">${(s.items||[]).map(f => `
+          <div style="flex:1;min-width:220px;max-width:300px;text-align:center;padding:32px 24px">
+            <div style="width:64px;height:64px;border-radius:16px;background:${primary}15;color:${primary};display:inline-flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px"><i class="fas ${esc(f.icon||'fa-star')}"></i></div>
+            <h3 style="font-size:20px;font-weight:600;margin-bottom:8px">${esc(f.title)}</h3>
+            <p style="font-size:15px;color:${text}99;line-height:1.6">${esc(f.desc)}</p>
+          </div>`).join('')}
+        </div>
+      </section>`;
+      case 'pricing': return `<section style="${previewStyles}padding:80px 40px;background:${bg};text-align:center">
+        <h2 style="font-size:36px;font-weight:700;margin-bottom:48px">${esc(s.title)}</h2>
+        <div style="display:flex;gap:32px;justify-content:center;align-items:flex-start;max-width:800px;margin:0 auto;flex-wrap:wrap">${(s.plans||[]).map(p => `
+          <div style="flex:1;min-width:240px;max-width:340px;border:2px solid ${p.featured ? primary : '#e2e8f0'};border-radius:16px;padding:40px 32px;background:${p.featured ? primary+'08' : '#fff'};${p.featured ? 'transform:scale(1.05);box-shadow:0 20px 40px '+primary+'20' : ''}">
+            ${p.featured ? `<div style="background:${primary};color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:16px">MOST POPULAR</div>` : ''}
+            <h3 style="font-size:22px;font-weight:600;margin-bottom:8px">${esc(p.name)}</h3>
+            <div style="font-size:48px;font-weight:700;color:${primary};margin-bottom:24px">${esc(p.price)}<span style="font-size:16px;font-weight:400;color:${text}80">/mo</span></div>
+            ${(p.features||[]).map(f => `<div style="font-size:14px;padding:8px 0;color:${text}99;text-align:left"><i class="fas fa-check" style="color:${primary};margin-right:10px;font-size:12px"></i>${esc(f)}</div>`).join('')}
+            <div style="margin-top:24px"><a href="#" style="display:block;padding:12px;background:${p.featured ? primary : 'transparent'};color:${p.featured ? '#fff' : primary};border:2px solid ${primary};border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;text-align:center">Choose Plan</a></div>
+          </div>`).join('')}
+        </div>
+      </section>`;
+      case 'testimonials': return `<section style="${previewStyles}padding:80px 40px;background:${bg}">
+        <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:1000px;margin:0 auto">${(s.items||[]).map(t => `
+          <div style="flex:1;min-width:280px;max-width:440px;background:#fff;border-radius:16px;padding:32px;border:1px solid #e2e8f0;box-shadow:0 4px 12px rgba(0,0,0,.04)">
+            <div style="color:${primary};font-size:28px;margin-bottom:12px"><i class="fas fa-quote-left"></i></div>
+            <p style="font-size:15px;line-height:1.7;margin-bottom:20px;color:${text}cc;font-style:italic">"${esc(t.text)}"</p>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:44px;height:44px;border-radius:50%;background:${primary}20;color:${primary};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">${esc(t.name[0])}</div>
+              <div><div style="font-size:14px;font-weight:600">${esc(t.name)}</div><div style="font-size:12px;color:${text}80">${esc(t.role)}</div></div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </section>`;
+      case 'faq': return `<section style="${previewStyles}padding:80px 40px;background:${bg}">
+        <h2 style="font-size:36px;font-weight:700;text-align:center;margin-bottom:40px">Frequently Asked Questions</h2>
+        <div style="max-width:700px;margin:0 auto">${(s.items||[]).map(f => `
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;margin-bottom:12px;transition:box-shadow .2s">
+            <div style="font-size:16px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:10px"><i class="fas fa-chevron-right" style="color:${primary};font-size:12px"></i>${esc(f.q)}</div>
+            <div style="font-size:14px;color:${text}99;padding-left:22px;line-height:1.6">${esc(f.a)}</div>
+          </div>`).join('')}
+        </div>
+      </section>`;
+      case 'cta': return `<section style="${previewStyles}background:linear-gradient(135deg,${primary},${secondary});padding:80px 40px;text-align:center;color:#fff">
+        <h2 style="font-size:40px;font-weight:700;margin-bottom:16px">${esc(s.title)}</h2>
+        <p style="font-size:18px;opacity:.9;margin-bottom:32px">${esc(s.subtitle)}</p>
+        <a href="${esc(s.ctaLink)}" style="display:inline-block;background:#fff;color:${primary};padding:14px 36px;border-radius:8px;font-weight:600;font-size:16px;text-decoration:none">${esc(s.ctaText)}</a>
+      </section>`;
+      case 'contact': return `<section style="${previewStyles}padding:80px 40px;background:${bg}">
+        <h2 style="font-size:36px;font-weight:700;text-align:center;margin-bottom:40px">${esc(s.title)}</h2>
+        <div style="max-width:500px;margin:0 auto">
+          <div style="display:flex;gap:16px;margin-bottom:16px"><input style="flex:1;padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit" placeholder="Your name"><input style="flex:1;padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit" placeholder="Email address"></div>
+          <input style="width:100%;padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:16px" placeholder="Subject">
+          <textarea style="width:100%;padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;height:120px;resize:none;font-family:inherit;margin-bottom:16px" placeholder="Your message"></textarea>
+          <div style="text-align:center"><button style="background:${primary};color:#fff;border:none;padding:14px 40px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit">Send Message</button></div>
+        </div>
+      </section>`;
+      case 'footer': return `<footer style="${previewStyles}padding:32px 40px;background:#1e293b;color:#94a3b8;text-align:center;font-size:14px">${esc(s.text)}</footer>`;
+      case 'spacer': return `<div style="height:${s.height}px"></div>`;
+      default: return '';
+    }
+  }).join('');
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=${font.replace(/ /g,'+')}:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'${font}',sans-serif}</style></head><body>${sectionsHTML}</body></html>`;
+}
+
+// ===== EXPORT =====
+document.getElementById('btnExport').addEventListener('click', async () => {
+  try {
+    const res = await fetch(`${API}/export`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ sections, theme }) });
+    const data = await res.json();
+    const blob = new Blob([data.html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = (document.getElementById('projectName').value || 'landing-page') + '.html';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('Exported!', 'success');
+  } catch { showToast('Export failed', 'error'); }
+});
+
+// ===== TOAST =====
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== INIT =====
+renderCanvas(); renderPresets(); syncThemeInputs();
+</script>
+</body>
+</html>
